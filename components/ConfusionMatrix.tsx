@@ -189,9 +189,9 @@ export default function ConfusionMatrix({ results, label }: Props) {
           </li>
           <li>
             Recall: &nbsp;&nbsp;&nbsp;<span className="tp">TP</span>/(
-            <span className="tp">TP</span>/<span className="fn">FN</span>) ={" "}
+            <span className="tp">TP</span>+<span className="fn">FN</span>) ={" "}
             <span className="tp">{d.tp}</span>/(
-            <span className="tp">{d.tp}</span>/
+            <span className="tp">{d.tp}</span>+
             <span className="fn">{d.fn}</span>) = {f(d.recall)}
           </li>
           <li>
