@@ -1,0 +1,33 @@
+{
+  "title": "Where is Mark Rutte?",
+  "description": "Enter query to find texts that are about the person Mark Rutte.",
+  "label": "Mark",
+  "items": [
+    {
+      "text": "Mark Rutte is the Prime Minister of the Netherlands. ",
+      "real": 1
+    },
+    {
+      "text": "Dutch Minister was surrounded by people carrying  torches.",
+      "real": 0
+    },
+    {
+      "text": "Prime Minister Rutte is undertaking a visit to India.",
+      "real": 1
+    },
+    {
+      "text": "Hugo Rutte, coincidentally, had a collegue named Mark de Groot",
+      "real": 0
+    },
+    { "text": "Who is the Prime Minister of France?", "real": 0 },
+    { "text": "The name is Rutte. Hugo Rutte", "real": 0 },
+    {
+      "text": "The third Rutte cabinet fell on January 15, 2021.",
+      "real": 0
+    },
+    {
+      "text": "The official Twitter account of the Dutch Prime Minister is minpres",
+      "real": 1
+    }
+  ]
+}
