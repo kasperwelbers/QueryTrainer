@@ -7,8 +7,8 @@ const StyledDiv = styled.div`
   flex: 1 1 auto;
   max-width: 500px;
   flex-direction: column;
-  border: 1px solid #121212;
-  padding: 2rem;
+  //border: 1px solid #121212;
+  padding: 2rem 2rem 2rem 0.5rem;
   border-radius: 10px;
 
   h2 {

@@ -40,14 +40,16 @@ const StyledDiv = styled.div`
     grid-template-rows: repeat(2, auto);
     grid-gap: 2rem;
     grid-template-areas:
-      "texts input"
-      "texts matrix";
+      "input texts"
+      "matrix texts";
 
     .input {
       max-width: 500px;
       grid-area: input;
 
       p {
+        font-weight: bold;
+        text-align: center;
         margin: 0 0 0.5rem 0;
       }
       .query-error {
