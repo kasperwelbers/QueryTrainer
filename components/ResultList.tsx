@@ -4,8 +4,14 @@ import styled from "styled-components";
 const StyledDiv = styled.div`
   grid-area: texts;
   height: 100%;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 4rem 1fr;
+  grid-template-rows: 6rem 1fr;
+  grid-template-areas:
+    ". xlab"
+    "ylab notReal"
+    "ylab real";
+
   //border: 2px solid #121212;
   padding: 0.5rem 0.5rem 1rem 0.5rem;
   position: relative;
@@ -15,11 +21,69 @@ const StyledDiv = styled.div`
     text-align: center;
   }
 
+  .xlab {
+    grid-area: xlab;
+    height: 2rem;
+  }
+  .ylab {
+    grid-area: ylab;
+    writing-mode: vertical-rl;
+    transform: rotate(-180deg);
+  }
+
+  .axisLabel {
+    font-size: 1.8rem;
+    font-weight: bold;
+
+    .label {
+      font-size: 1.6rem;
+      text-decoration: none;
+    }
+    &.big {
+      font-size: 3rem;
+    }
+    .sublabel {
+      font-size: 1.8rem;
+      margin-top: 0.5rem;
+      display: flex;
+      div {
+        flex: 1 1 auto;
+      }
+    }
+  }
+
+  .notReal {
+    grid-area: notReal;
+  }
+  .real {
+    grid-area: real;
+  }
+
   .list {
-    //border: 1px solid #121212;
-    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: "ylab content";
+  }
+  .content {
     padding: 0.5rem;
-    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    grid-area: content;
+    position: relative;
+    :after {
+      content: "";
+      display: block;
+      border-left: 1px solid #121212;
+      top: 0;
+      left: calc(50% + 0.25rem);
+      height: 100%;
+      width: 100%;
+      position: absolute;
+    }
+    &.bottom {
+      padding-top: 1rem;
+      border-top: 1px solid #121212;
+    }
   }
   h4 {
     margin: 0 0 0.3rem 0;
@@ -31,34 +95,28 @@ const StyledDiv = styled.div`
 
   .label {
     display: flex;
-    flex-direction: column;
     margin-bottom: 1rem;
     font-style: italic;
 
-    h3 {
-      margin: 0.5rem;
-    }
-    & > div {
-      display: flex;
-      flex: 1 1 auto;
-      & > div {
-        flex: 1 1 auto;
-      }
+    div {
+      width: 50%;
+      text-align: center;
     }
   }
 
   .result {
     width: 100%;
+    margin-left: 1%;
     min-height: 1.5rem;
     flex: 1 1 auto;
     transition: all 0.4s;
     padding: 0.1rem 0.5rem;
 
     &.match {
-      margin-left: 50%;
+      margin-left: 51%;
     }
     &.error {
-      margin-left: 25%;
+      margin-left: 26%;
     }
     &.focus div {
       border: 3px solid black;
@@ -66,7 +124,7 @@ const StyledDiv = styled.div`
 
     div {
       height: 100%;
-      width: 50%;
+      width: 48%;
       //height: 1.5rem;
       border-radius: 5px;
       border: 3px solid transparent;
@@ -117,41 +175,45 @@ export default function ResultList({
   return (
     <StyledDiv>
       {/* <h2>Search results</h2> */}
-      <div className="list">
-        <h4>Texts NOT about {label}</h4>
-        <p>
-          These <i>should NOT</i> be found
-        </p>
-        <div className="label">
-          <div>
+      <div className="ylab axisLabel big">Reality</div>
+      <div className="xlab axisLabel big" style={{ marginLeft: "3rem" }}>
+        Search result
+        <div className="sublabel">
+          <div>Negative</div>
+          <div>Positive</div>
+        </div>
+      </div>
+
+      <div className="list notReal">
+        <div className="ylab axisLabel">NOT about {label}</div>
+        <div className="content">
+          <div className="label">
             <div>true negative (TN)</div>
             <div>false positive (FP)</div>
           </div>
+          <Results
+            results={notReal}
+            invalid={invalid}
+            focus={focus}
+            setFocus={setFocus}
+          />
         </div>
-        <Results
-          results={notReal}
-          invalid={invalid}
-          focus={focus}
-          setFocus={setFocus}
-        />
       </div>
-      <div className="list">
-        <h4>Texts about {label}</h4>
-        <p>
-          These <i>should</i> be found
-        </p>
-        <div className="label">
-          <div>
+
+      <div className="list real">
+        <div className="ylab axisLabel">About {label}</div>
+        <div className="content bottom">
+          <div className="label">
             <div>false negative (FN)</div>
-            <div>true positive (TN)</div>
+            <div>true positive (TP)</div>
           </div>
+          <Results
+            results={real}
+            invalid={invalid}
+            focus={focus}
+            setFocus={setFocus}
+          />
         </div>
-        <Results
-          results={real}
-          invalid={invalid}
-          focus={focus}
-          setFocus={setFocus}
-        />
       </div>
     </StyledDiv>
   );
@@ -171,7 +233,6 @@ function Results({
   return (
     <div>
       {results.map((result) => {
-        console.log(result);
         let classname = "result";
         if (invalid) {
           classname += " error";

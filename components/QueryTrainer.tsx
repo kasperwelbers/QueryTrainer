@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { highlight, parse, test, filter } from "liqe-quick-fix-copy";
+import { highlight, parse, test } from "liqe-quick-fix-copy";
 import ResultList from "./ResultList";
 import ConfusionMatrix from "./ConfusionMatrix";
 
@@ -38,14 +38,15 @@ const StyledDiv = styled.div`
     max-width: 1000px;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(2, auto);
-    grid-gap: 2rem;
+    grid-gap: 5rem;
     grid-template-areas:
-      "input texts"
-      "matrix texts";
+      "input input"
+      "texts matrix";
 
     .input {
       max-width: 500px;
       grid-area: input;
+      margin: auto;
 
       p {
         font-weight: bold;
@@ -73,11 +74,16 @@ const StyledDiv = styled.div`
     .grid {
       grid-template-columns: 1fr;
       grid-template-rows: repeat(4, auto);
+      grid-gap: 2rem;
       grid-template-areas:
         "input"
         "texts"
         "matrix";
-  } 
+    }
+    .input {
+      width: 100%;
+    }
+  }
 `;
 
 export default function QueryTrainer() {

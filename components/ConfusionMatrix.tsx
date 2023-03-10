@@ -7,6 +7,7 @@ const StyledDiv = styled.div`
   flex: 1 1 auto;
   max-width: 500px;
   flex-direction: column;
+
   //border: 1px solid #121212;
   padding: 2rem 2rem 2rem 0.5rem;
   border-radius: 10px;
@@ -22,35 +23,26 @@ const StyledDiv = styled.div`
     grid-area: measures;
     padding-top: 0;
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 10rem 1fr 1fr;
+    grid-template-rows: auto auto 1fr 1fr;
     grid-template-areas:
-      ". xlab xlab ."
-      "ylab negative positive ."
-      "notReal tn fp row2"
-      "real fn tp row1"
-      ". col1 col2 total";
+      ". xlab xlab"
+      "ylab negative positive"
+      "notReal tn fp"
+      "real fn tp";
     grid-gap: 0;
     text-align: center;
 
     div {
+      display: table-cell;
+      vertical-align: middle;
       padding-top: 0.3rem;
-    }
-    .grey {
-      background: #f0f0f0;
-      padding: 0.5rem;
     }
 
     .label {
+      padding: 0.5rem;
+      align-self: center;
       font-weight: bold;
-    }
-    .xlab {
-      grid-area: xlab;
-      font-size: 2rem;
-    }
-    .ylab {
-      font-size: 2rem;
-      grid-area: ylab;
     }
 
     .negative {
@@ -74,28 +66,6 @@ const StyledDiv = styled.div`
 
       grid-area: notReal;
       text-align: right;
-    }
-
-    .row1 {
-      font-weight: bold;
-      grid-area: row1;
-    }
-    .row2 {
-      font-weight: bold;
-      grid-area: row2;
-    }
-    .col1 {
-      font-weight: bold;
-      grid-area: col1;
-    }
-    .col2 {
-      font-weight: bold;
-      grid-area: col2;
-    }
-    .total {
-      font-weight: bold;
-
-      grid-area: total;
     }
   }
   .tp {
@@ -125,9 +95,43 @@ const StyledDiv = styled.div`
     color: white;
   }
 
-  .calculation {
-    line-height: 2.5rem;
-    font-family: monospace;
+  .outcomes {
+    padding-left: 10rem;
+  }
+
+  .outcome {
+    margin-top: 1rem;
+    padding: 1rem;
+    text-align: center;
+    p,
+    h3 {
+      margin: 0;
+    }
+
+    .measure {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .calculation {
+      line-height: 2.5rem;
+      font-family: monospace;
+    }
+  }
+
+  .cell {
+    font-size: 1.5rem;
+    padding: 0.5rem;
+  }
+  .score {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  .celllabel {
+    //font-style: italic;
+  }
+  .help {
+    font-size: 1.2rem;
+    font-style: italic;
   }
 `;
 
@@ -157,49 +161,93 @@ export default function ConfusionMatrix({ results, label }: Props) {
   return (
     <StyledDiv>
       {/* <h2>Precision, Recall and F1</h2> */}
+
       <div className="container">
         <div className="matrix">
-          <div className="xlab label ">Search results</div>
-          <div className="negative label grey">negative</div>
-          <div className="positive label grey">positive</div>
+          <div className="negative label">negative</div>
+          <div className="positive label ">positive</div>
 
-          <div className="ylab label ">Reality</div>
-          <div className="real label grey">about {label}</div>
-          <div className="notReal label grey">not about {label}</div>
+          <div className="real label">
+            about <br />
+            {label}
+          </div>
+          <div className="notReal label ">
+            NOT about <br />
+            {label}
+          </div>
 
-          <div className="tp ">{d.tp}</div>
-          <div className="fp ">{d.fp}</div>
-          <div className="fn ">{d.fn}</div>
-          <div className="tn ">{d.tn}</div>
-
-          <div className="row1">{d.tp + d.fn}</div>
-          <div className="row2">{d.fp + d.tn}</div>
-          <div className="col1">{d.tn + d.fn}</div>
-          <div className="col2">{d.fp + d.tn}</div>
-          <div className="total">{d.tp + d.fn + d.fp + d.tn}</div>
+          <div className="cell tp ">
+            <span className="celllabel">True Positives:</span>
+            <br />
+            <span className="score">{d.tp}</span>
+            <br />
+            <span className="help">
+              <b>correctly</b>
+              <br /> measured as <b>positive</b>
+            </span>
+          </div>
+          <div className="cell fp ">
+            <span className="celllabel">False Positives:</span>
+            <br />
+            <span className="score">{d.fp}</span>
+            <br />
+            <span className="help">
+              <b>incorrectly</b>
+              <br />
+              measured as <b>positive</b>
+            </span>
+          </div>
+          <div className="cell fn ">
+            <span className="celllabel">False Negatives:</span>
+            <br />
+            <span className="score">{d.fn}</span>
+            <br />
+            <span className="help">
+              <b>incorrectly</b> <br />
+              measured as <b>negative</b>
+            </span>
+          </div>
+          <div className="cell tn ">
+            <span className="celllabel">True Negatives:</span>
+            <br />
+            <span className="score">{d.tn}</span>
+            <br />
+            <span className="help">
+              <b>correctly</b> <br />
+              measured as <b>negative</b>
+            </span>
+          </div>
         </div>
-        <div className="calculation">
-          <br />
-          <li>
-            Precision: <span className="tp">TP</span>/(
-            <span className="tp">TP</span>+<span className="fp">FP</span>) ={" "}
-            <span className="tp">{d.tp}</span>/(
-            <span className="tp">{d.tp}</span>+
-            <span className="fp">{d.fp}</span>) = {f(d.precision)}
-          </li>
-          <li>
-            Recall: &nbsp;&nbsp;&nbsp;<span className="tp">TP</span>/(
-            <span className="tp">TP</span>+<span className="fn">FN</span>) ={" "}
-            <span className="tp">{d.tp}</span>/(
-            <span className="tp">{d.tp}</span>+
-            <span className="fn">{d.fn}</span>) = {f(d.recall)}
-          </li>
-          <li>
-            F1: &nbsp; &nbsp; &nbsp; &nbsp;
-            {`2*(${f(d.precision)}*${f(d.recall)})/(${f(d.precision)}+${f(
-              d.recall
-            )}) = ${f(d.f1)}`}
-          </li>
+        <br />
+        <div className="outcomes">
+          <div className="outcome">
+            <span className="measure">Precision</span>
+            <div className="calculation">
+              <span className="tp">TP</span>/(
+              <span className="tp">TP</span>+<span className="fp">FP</span>) ={" "}
+              <span className="tp">{d.tp}</span>/(
+              <span className="tp">{d.tp}</span>+
+              <span className="fp">{d.fp}</span>) = {f(d.precision)}
+            </div>
+          </div>
+          <div className="outcome">
+            <span className="measure">Recall</span>
+            <div className="calculation">
+              <span className="tp">TP</span>/(
+              <span className="tp">TP</span>+<span className="fn">FN</span>) ={" "}
+              <span className="tp">{d.tp}</span>/(
+              <span className="tp">{d.tp}</span>+
+              <span className="fn">{d.fn}</span>) = {f(d.recall)}
+            </div>
+          </div>
+          <div className="outcome">
+            <span className="measure">F1</span>
+            <div className="calculation">
+              {`2*(${f(d.precision)}*${f(d.recall)})/(${f(d.precision)}+${f(
+                d.recall
+              )}) = ${f(d.f1)}`}
+            </div>
+          </div>
         </div>
       </div>
     </StyledDiv>
