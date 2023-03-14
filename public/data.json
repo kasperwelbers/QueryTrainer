@@ -8,7 +8,7 @@
       "real": 1
     },
     {
-      "text": "Dutch Minister was surrounded by people carrying  torches.",
+      "text": "Dutch Minister was surrounded by people carrying torches.",
       "real": 0
     },
     {
@@ -16,7 +16,7 @@
       "real": 1
     },
     {
-      "text": "Hugo Rutte, coincidentally, had a collegue named Mark de Groot",
+      "text": "Hugo Rutte, coincidentally, had a collegue named Mark de Jonge",
       "real": 0
     },
     { "text": "Who is the Prime Minister of France?", "real": 0 },
@@ -27,6 +27,10 @@
     },
     {
       "text": "The official Twitter account of the Dutch Prime Minister is minpres",
+      "real": 1
+    },
+    {
+      "text": "Rutte has been the leader of the VVD for over 15 years",
       "real": 1
     }
   ]
